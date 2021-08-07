@@ -39,22 +39,50 @@
 			return $opcao = readline();
 			
 		}
-		public function criar_Cliente(){
-			
+		public function criar_Cliente(&$qtd){
+			$clienteTemp = new Cliente;
 			echo "Digite o nome do cliente:\n";			
-			$this->loja->clientes[0]->set_nome(readline());
+			$clienteTemp->set_nome(readline());
 			
 			echo "Digite o RG do cliente:\n";
-			$this->loja->clientes[0]->set_RG(readline());
+			$clienteTemp->set_RG(readline());
 			
 			echo "Digite o endereço do cliente:\n";
-			$this->loja->clientes[0]->set_endereco(readline());
+			$clienteTemp->set_endereco(readline());
 			
 			echo "Digite o data de nascimento do cliente:\n";
-			$this->loja->clientes[0]->set_data_de_nascimento(readline());
+			$clienteTemp->set_data_de_nascimento(readline());
+
+			array_push($this->loja->clientes, $clienteTemp);
 		}
 		public function listar_Clientes(){
-			var_dump ($this->loja->clientes);
+			foreach($this->loja->clientes as $cliente){
+				echo "Nome: $cliente->get_nome(), ";
+				echo "Endereco: $cliente->get_endereco(), ";
+				echo "RG: $cliente->get_RG(), ";
+				echo "Data Nascimento: $cliente->get_data_de_nascimento()\n";
+				//  ->get_nome();
+			}
+		}
+
+		public function criar_Produto(){
+			$produtoTemp = new Produto;
+			echo "Digite o nome do produto:\n";			
+			$produtoTemp->set_nome(readline());
+			
+			echo "Digite o RG do produto:\n";
+			$produtoTemp->set_codigo(readline());
+			
+			echo "Digite o endereço do produto:\n";
+			$produtoTemp->set_valor(readline());
+
+			array_push($this->loja->produtos, $produtoTemp);
+		}
+
+		public function listar_Produto(){
+			foreach($this->loja->produtos as $produto){
+				echo "Nome: $produto->get_nome()";
+			}
 		}
 		
 	}

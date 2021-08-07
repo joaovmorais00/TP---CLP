@@ -1,27 +1,18 @@
 <?php 
+include ('Pessoa.php');
+include ('Produto.php');
+include ('Totalizavel.php');
 
 class Loja{
-	private $nome;
-	private $codigo;
-	private $valor;
-
-	public function get_nome(){
-		return $this->nome;
-	}
-	public function get_codigo(){
-		return $this->codigo;
-	}
-	public function get_valor(){
-		return $this->valor;
-	}
-	public function set_nome($nome){
-		 $this->nome = $nome;
-	}
-	public function set_codigo($codigo){
-		$this->codigo = $codigo ;
-	}
-	public function set_valor($valor){
-		$this->valor = $valor;
+	public $clientes;
+	public $produtos;
+	public $vendas;
+	function __construct(){
+	
+		$this->clientes = array(new Cliente);
+		$this->produtos = array(new Produto);
+		$this->vendas = array(new Venda);
+		
 	}
 	
 }

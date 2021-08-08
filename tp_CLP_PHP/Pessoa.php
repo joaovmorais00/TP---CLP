@@ -2,18 +2,20 @@
 abstract class Pessoa{
 	private $nome;
 	private $endereco;
-	abstract protected function get_nome();
-	abstract protected function get_endereco();
-	abstract protected function set_nome($nome);
-	abstract protected function set_endereco($endereco);
-	
+
 }
 class Cliente extends Pessoa{
 	private $RG;
 	private $data_de_nascimento;
-	private $quantidade;
 	
-	
+	// construtor
+	function __construct($nome,$endereco,$RG,$data_de_nascimento){
+		$this->nome = $nome;
+		$this->endereco = $endereco;
+		$this->RG = $RG;
+		$this->data_de_nascimento = $data_de_nascimento;
+	}
+	// gets;
 	public function get_nome(){
 		return $this->nome;
 	}
@@ -26,6 +28,7 @@ class Cliente extends Pessoa{
 	public function get_data_de_nascimento(){
 		return $this->data_de_nascimento;
 	}
+	// sets;
 	public function set_nome($nome){
 		$this->nome = $nome;
 	}
@@ -38,12 +41,5 @@ class Cliente extends Pessoa{
 	public function set_data_de_nascimento($data_de_nascimento){
 		$this->data_de_nascimento = $data_de_nascimento;
 	}
-	public function addiciona_quantidade(){
-		$this->quantidade++;
-	}
-	public function diminue_quantidade(){
-		$this->quantidade--;
-	}
-	
 }
 ?>

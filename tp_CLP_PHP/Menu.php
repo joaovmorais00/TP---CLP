@@ -39,32 +39,98 @@
 			return readline();
 			
 		}
-		public function criar_Cliente(&$qtd){
-			// $clienteTemp = new Cliente;
-			// echo "Digite o nome do cliente:\n";			
-			// $clienteTemp->set_nome(readline());
+//-------------------------------------------------------------------------------------
+		public function criar_Cliente(){
+			echo "Digite o nome do cliente:\n";			
+			$nomeTemp = readline();
 			
-			// echo "Digite o RG do cliente:\n";
-			// $clienteTemp->set_RG(readline());
+			echo "Digite o endereço do cliente:\n";
+			$enderecoTemp = readline();
 			
-			// echo "Digite o endereço do cliente:\n";
-			// $clienteTemp->set_endereco(readline());
+			echo "Digite o RG do cliente:\n";
+			$rgTemp = readline();
 			
-			// echo "Digite o data de nascimento do cliente:\n";
-			// $clienteTemp->set_data_de_nascimento(readline());
+			echo "Digite o data de nascimento do cliente:\n";
+			$dataTemp = readline();
+			
+			$clienteTemp = new Cliente($nomeTemp,$enderecoTemp,$rgTemp,$dataTemp);
 
-			// array_push($this->loja->clientes, $clienteTemp);
+			$this->loja->clientes[]= $clienteTemp;
 		}
+		
 		public function listar_Clientes(){
-			foreach($this->loja->clientes as $cliente){
-				echo "Nome: $cliente->get_nome(), ";
-				echo "Endereco: $cliente->get_endereco(), ";
-				echo "RG: $cliente->get_RG(), ";
-				echo "Data Nascimento: $cliente->get_data_de_nascimento()\n";
-				//  ->get_nome();
+			if(sizeof($this->loja->clientes)!=0)
+				foreach($this->loja->clientes as $cliente){
+					echo "\nNome: ".$cliente->get_nome()."\n";
+					echo "Endereco: ".$cliente->get_endereco()."\n";
+					echo "RG: ".$cliente->get_RG()."\n";
+					echo "Data Nascimento: ".$cliente->get_data_de_nascimento()."\n\n";
+				}
+			else
+				echo "Nenhum cliente foi encontrado\n";
+		}
+		
+		public function remover_Cliente(){
+			echo ("\nDigite o nome do Cliente que deseja remover:\n");
+			
+			$nome = readline();
+			
+			for($i = 0;$i<sizeof($this->loja->clientes);$i++){
+				if ( $this->loja->clientes[$i]->get_nome() == $nome){
+					echo "Tem certeza que deseja excluir o cliente: $nome? 1 - SIM 2 - NAO\n";
+					if(readline() == 1){
+						unset($this->loja->clientes[$i]);
+						echo "Cliente $nome excluido.\n";
+					}
+				}
+				else
+					echo "Cliente não encontrado\n";
 			}
 		}
-
+		public function alterar_Cliente(){
+			echo ("\nDigite o nome do Cliente que deseja alterar:\n");
+			
+			$nome = readline();
+			
+			for($i = 0;$i<sizeof($this->loja->clientes);$i++){
+				if ( $this->loja->clientes[$i]->get_nome() == $nome){
+					echo "Deseja alterar nome do cliente? 1 - SIM 2 - NAO\n";
+					if(readline() == 1){,,
+						echo "\nDigite o novo nome:\n";
+						$nome = readline();
+						$this->loja->clientes[$i]->set_nome($nome);
+						$this->loja->clientes[$i]->set_nome($nome);
+						echo "Cliente $nome excluido.\n";
+					}
+				}
+				else
+					echo "Cliente não encontrado\n";
+			}
+			
+				echo "\nDeseja alterar o nome do produto? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite o novo nome:\n";
+					$nome = readline();
+					$this->loja->produtos[$indice]->set_nome($nome);
+				}
+				echo "\nDeseja alterar o codigo do produto? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite o novo codigo:\n";
+					$codigo = readline();
+					$this->loja->produtos[$indice]->set_codigo($codigo);
+				}
+				echo "\nDeseja alterar o valor do produto? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite o novo valor:\n";
+					$valor = readline();
+					$this->loja->produtos[$indice]->set_valor($valor);
+				}
+			}
+		}
+//-------------------------------------------------------------------------------------
 		public function criar_Produto(){
 			echo "\nDigite o nome do produto:\n";			
 			$nomeTemp = readline();

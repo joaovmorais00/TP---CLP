@@ -9,9 +9,11 @@ class Venda extends Totalizavel{
 	private $data;
 	private $cliente;
 	private $itens;
-	function __construct(){
-		$this->numero = 0;
-		$this->itens = array();
+	function __construct($numero, $data, $cliente, $itens){
+		$this->numero = $numero;
+		$this->data =$data;
+		$this->cliente = $cliente;
+		$this->itens = $itens;
 		
 	}
 	//geters
@@ -37,15 +39,13 @@ class Venda extends Totalizavel{
 	public function set_cliente($cliente){
 		$this->cliente = $cliente ;
 	}	
-	public function set_itens($item){
-		
-		$this->itens[$this->numero] = $item;
-		$this->numero++;
+	public function set_itens($itens){
+		$this->itens = $itens;
 	}
-	protected function total(){
+	public function total(){
 		$total = 0; 
-		for($i=0; $i<$this->numero;$i++ ){
-			$total += $this->itens[$i]->total();
+		foreach($this->itens as $item){
+			$total+= $item->total();
 		}
 		return $total;
 	}

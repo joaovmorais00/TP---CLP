@@ -39,6 +39,8 @@
 			return readline();
 			
 		}
+
+//CRUD CLIENTE		
 		public function criar_Cliente(&$qtd){
 			// $clienteTemp = new Cliente;
 			// echo "Digite o nome do cliente:\n";			
@@ -65,6 +67,19 @@
 			}
 		}
 
+		public function encontra_Cliente(){
+			echo "\nDigite o RG do cliente: \n";
+			$encontrar = readline();
+			$indice=0;
+			foreach($this->loja->clientes as $cliente){
+				if($cliente->get_RG() == $encontrar){
+					break;
+				}else $indice++;
+			}
+			return $indice;
+		}
+
+//CRUD PRODUTO
 		public function criar_Produto(){
 			echo "\nDigite o nome do produto:\n";			
 			$nomeTemp = readline();
@@ -137,7 +152,8 @@
 			}
 		}
 
-		public function criar_itemVenda($indiceVenda){
+//CRUD ITEM VENDA
+		public function criar_itemVenda(){
 			$indice = $this->encontra_Produto();
 			if($indice >= count($this->loja->produtos)){
 				throw new Exception("\nCodigo nao encontrado\n");
@@ -146,7 +162,8 @@
 				$qtdTemp = readline();
 				$produtoTemp = $this->loja->produtos[$indice];
 				$itemVenda = new ItemVenda($produtoTemp, $qtdTemp);
-				array_push($this->loja->vendas[$indiceVenda]->itens, $itemVenda);
+				//array_push($this->loja->vendas[$indiceVenda]->itens, $itemVenda);
+				return $itemVenda;
 			}
 		}
 
@@ -195,6 +212,116 @@
 			}
 		}
 		
+//CRUD VENDA
+		public function criar_Venda(){
+			echo "\nDigite o numero da venda:\n";
+			$numTemp = readline();
+			echo "\nDigite a data da venda:\n";
+			$dataTemp = readline();
+			$indiceCliente = $this->encontra_Cliente();
+			if($indiceCliente >= count($this->loja->clientes)){
+				throw new Exception("\nCliente nao encontrado\n");
+			}else{
+				$itensTemp = array();
+				$opcao = 1;
+				while($opcao == 1){
+					echo "\n1-Adicionar Item 2-Fechar Venda\n";
+					if(readline()==1){
+						$itemTemp = $this->criar_itemVenda();
+						array_push($itensTemp, $itemTemp);
+					}else{
+						$opcao = 0;
+					}
+				}
+			}
+		}
+
+		public function listar_Venda(){
+			echo "\nVendas:\n";
+			$indiceVenda=0;
+			foreach($this->loja->vendas as $venda){
+				echo "\nNumero: ".$venda->get_numero().", Data: ".$venda->get_data().", Nome do Cliente: ".$venda->get_cliente()->get_nome()."\nItens:\n";
+				$this->listar_ItemVenda($indiceVenda);
+				$indiceVenda++;
+			}
+		}
+
+		public function encontra_Venda(){
+			echo "\nDigite o numero da venda: \n";
+			$encontrar = readline();
+			$indice=0;
+			foreach($this->loja->vendas as $venda){
+				if($venda->get_numero() == $encontrar){
+					break;
+				}else $indice++;
+			}
+			return $indice;
+		}
+
+		public function excluir_Venda(){
+			$indice = $this->encontra_Venda();
+			if($indice >= count($this->loja->vendas)){
+				throw new Exception("\nNumero da venda nao encontrado\n");
+			}else{
+				unset($this->loja->vendas[$indice]);
+			}
+		}
+
+		public function alterar_Venda(){
+			$indice = $this->encontra_Venda();
+			if($indice >= count($this->loja->vendas)){
+				throw new Exception("\nNumero da venda nao encontrado\n");
+			}else{
+				echo "\nDeseja alterar o cliente da venda? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					$indiceCliente = $this->encontra_Cliente();
+					if($indiceCliente >= count($this->loja->clientes)){
+						throw new Exception("\nCliente nao encontrado\n");
+					}else{
+						$this->loja->vendas[$indice]->set_cliente($this->loja->clientes[$indiceCliente]);
+					}
+				}
+				echo "\nDeseja alterar o numero da venda? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite o novo numero:\n";
+					$numero = readline();
+					$this->loja->vendas[$indice]->set_numero($numero);
+				}
+				echo "\nDeseja alterar a data da venda? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite a nova data da venda:\n";
+					$data = readline();
+					$this->loja->vendas[$indice]->set_data($data);
+				}
+				echo "\nDeseja alterar ou remover algum item da venda? 1-SIM 2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					$itensTemp = array();
+					$opcao = 1;
+					while($opcao == 1){
+						echo "\n1-Alterar Item 2-Remover Item 3-Fechar Venda\n";
+						$operacao = readline();
+						switch($operacao){
+							case 1:
+								$this->alterar_ItemVenda($indice);
+							break;
+							case 2:
+								$this->excluir_ItemVenda($indice);
+							break;
+							case 3:
+								$opcao=3;
+							break;
+							default:
+								echo "Opcao invalida";
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 
 ?>

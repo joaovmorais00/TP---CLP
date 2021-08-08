@@ -101,7 +101,7 @@
 
 		public function excluir_Produto(){
 			$indice = $this->encontra_Produto();
-			if($indice == count($this->loja->produtos)){
+			if($indice >= count($this->loja->produtos)){
 				throw new Exception("\nCodigo nao encontrado\n");
 			}else{
 				unset($this->loja->produtos[$indice]);
@@ -110,7 +110,7 @@
 
 		public function alterar_Produto(){
 			$indice = $this->encontra_Produto();
-			if($indice == count($this->loja->produtos)){
+			if($indice >= count($this->loja->produtos)){
 				throw new Exception("\nCodigo nao encontrado\n");
 			}else{
 				echo "\nDeseja alterar o nome do produto? 1-SIM  2-NAO\n";
@@ -133,6 +133,64 @@
 					echo "\nDigite o novo valor:\n";
 					$valor = readline();
 					$this->loja->produtos[$indice]->set_valor($valor);
+				}
+			}
+		}
+
+		public function criar_itemVenda($indiceVenda){
+			$indice = $this->encontra_Produto();
+			if($indice >= count($this->loja->produtos)){
+				throw new Exception("\nCodigo nao encontrado\n");
+			}else{
+				echo "Digite quantidade:\n";
+				$qtdTemp = readline();
+				$produtoTemp = $this->loja->produtos[$indice];
+				$itemVenda = new ItemVenda($produtoTemp, $qtdTemp);
+				array_push($this->loja->vendas[$indiceVenda]->itens, $itemVenda);
+			}
+		}
+
+		public function listar_ItemVenda($indiceVenda){
+			echo "\nItens da venda:\n";
+			$indiceItemVenda=1;
+			foreach($this->loja->vendas[$indiceVenda]->itens as $item){
+				echo $indiceItemVenda."Produto: ".$item->produto->get_nome().", Quantidade: ".$item->get_quantidade().", Valor (Valor de cada unidade do produto): ".$item->get_valor()."\n";
+				$indiceItemVenda++;
+			}
+		}
+
+		public function excluir_ItemVenda($indiceVenda){
+			echo "\nDigite o indice do item da venda\n";
+			$indice = readline();
+			if($indice > count($this->loja->produtos)){
+				throw new Exception("\nIndice inválido\n");
+			}else{
+				unset($this->loja->vendas[$indiceVenda]->itens[$indice]);
+			}
+		}
+
+		public function alterar_ItemVenda($indiceVenda){
+			echo "\nDigite o indice do item da venda\n";
+			$indice = readline();
+			if($indice > count($this->loja->produtos)){
+				throw new Exception("\nIndice inválido\n");
+			}else{
+				echo "\nDeseja alterar o produto? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					$indiceProduto = $this->encontra_Produto();
+					if($indiceProduto >= count($this->loja->produtos)){
+						throw new Exception("\nCodigo nao encontrado\n");
+					}else{
+						$this->loja->vendas[$indiceVenda]->itens[$indice]->set_produto($this->loja->produtos[$indiceProduto]);
+					}
+				}
+				echo "\nDeseja alterar a quantidade? 1-SIM  2-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite a nova quantidade:\n";
+					$quantidade = readline();
+					$this->loja->vendas[$indiceVenda]->itens[$indice]->set_quantidade($quantidade);
 				}
 			}
 		}

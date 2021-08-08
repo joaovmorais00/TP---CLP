@@ -44,7 +44,7 @@ class Venda extends Totalizavel{
 	}
 	protected function total(){
 		$total = 0; 
-		for($i=0; i<$this->numero;$i++ ){
+		for($i=0; $i<$this->numero;$i++ ){
 			$total += $this->itens[$i]->total();
 		}
 		return $total;
@@ -52,30 +52,36 @@ class Venda extends Totalizavel{
 }
 class ItemVenda extends Totalizavel{
 	private $produto;
-	private $valor;
 	private $quantidade;
+	private $valor;
+
+	public function __construct($produto, $quantidade){
+		$this->produto = $produto;
+		$this->quantidade = $quantidade;
+		$this->valor = $produto->get_valor();
+	}
 
 	public function get_produto(){
 		return $this->produto;
 	}
-	public function get_valor(){
-		return $this->valor;
-	}
+	
 	public function get_quantidade(){
 		return $this->quantidade;
 	}
-	
-	public function set_valor($valor){
-		$this->valor = $valor;
+
+	public function get_valor(){
+		return $this->valor;
 	}
+	
 	public function set_quantidade($quantidade){
 		$this->quantidade = $quantidade ;
 	}
 	public function set_produto($produto){
 		$this->produto = $produto;
 	}
-	protected function total(){
-		$total = $this->valor*$this->quantidade;
+
+	public function total(){
+		$total = $this->produto->get_valor() * $this->quantidade;
 		return $total;
 	}
 }

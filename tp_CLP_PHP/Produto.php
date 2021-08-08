@@ -4,7 +4,13 @@ class Produto{
 	private $nome;
 	private $codigo;
 	private $valor;
-
+	
+	public function __construct($nome, $codigo, $valor){
+		$this->nome = $nome;
+		$this->codigo = $codigo;
+		$this->valor = $valor;
+	}
+	
 	public function get_nome(){
 		return $this->nome;
 	}

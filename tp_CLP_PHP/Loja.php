@@ -9,9 +9,9 @@ class Loja{
 	public $vendas;
 	function __construct(){
 	
-		$this->clientes = array(new Cliente);
-		$this->produtos = array(new Produto);
-		$this->vendas = array(new Venda);
+		$this->clientes = array();
+		$this->produtos = array();
+		$this->vendas = array();
 		
 	}
 	

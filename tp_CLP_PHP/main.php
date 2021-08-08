@@ -21,7 +21,7 @@ while(1){
 			$opcaoVenda = $menu->menu_Venda();
 		break;
 		default:
-			echo "Essa opção não é valida";
+			echo "\nOpcao invalida\n";
 		break;
 	endswitch;
 	
@@ -38,7 +38,9 @@ while(1){
 			
 			case 3:
 				//$menu->remover_Cliente();
-			
+			default:
+				echo "\nOpcao invalida\n";
+			break;
 		endswitch;
 	}else if($opcao==2){
 		switch ($opcaoProduto):
@@ -51,21 +53,37 @@ while(1){
 			break;
 			
 			case 3:
-				//$menu->remover_Cliente();
-			
+				try{
+					$menu->excluir_Produto();
+				}catch(Exception $e){
+					echo $e->getMessage();
+				}
+			break;
+			case 4:
+				try{
+					$menu->alterar_Produto();
+				}catch(Exception $e){
+					echo $e->getMessage();
+				}
+			break;
+			default:
+				echo "\nOpcao invalida\n";
+			break;
 		endswitch;
 	}else{
 		switch ($opcaoVenda):
 			case 1:
 			break;
 			
-			case 2:
+			// case 2:
 							
-			break;
+			// break;
 			
-			case 3:
+			// case 3:
 				//$menu->remover_Cliente();
-			
+			default:
+				echo "\nOpcao invalida\n";
+			break;
 		endswitch;
 	}
 	

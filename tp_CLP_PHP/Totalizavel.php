@@ -9,9 +9,11 @@ class Venda extends Totalizavel{
 	private $data;
 	private $cliente;
 	private $itens;
-	function __construct(){
-		$this->numero = 0;
-		$this->itens = array();
+	function __construct($numero, $data, $cliente, $itens){
+		$this->numero = $numero;
+		$this->data =$data;
+		$this->cliente = $cliente;
+		$this->itens = $itens;
 		
 	}
 	//geters
@@ -37,45 +39,49 @@ class Venda extends Totalizavel{
 	public function set_cliente($cliente){
 		$this->cliente = $cliente ;
 	}	
-	public function set_itens($item){
-		
-		$this->itens[$this->numero] = $item;
-		$this->numero++;
+	public function set_itens($itens){
+		$this->itens = $itens;
 	}
-	protected function total(){
+	public function total(){
 		$total = 0; 
-		for($i=0; i<$this->numero;$i++ ){
-			$total += $this->itens[$i]->total();
+		foreach($this->itens as $item){
+			$total+= $item->total();
 		}
 		return $total;
 	}
 }
 class ItemVenda extends Totalizavel{
 	private $produto;
-	private $valor;
 	private $quantidade;
+	private $valor;
+
+	public function __construct($produto, $quantidade){
+		$this->produto = $produto;
+		$this->quantidade = $quantidade;
+		$this->valor = $produto->get_valor();
+	}
 
 	public function get_produto(){
 		return $this->produto;
 	}
-	public function get_valor(){
-		return $this->valor;
-	}
+	
 	public function get_quantidade(){
 		return $this->quantidade;
 	}
-	
-	public function set_valor($valor){
-		$this->valor = $valor;
+
+	public function get_valor(){
+		return $this->valor;
 	}
+	
 	public function set_quantidade($quantidade){
 		$this->quantidade = $quantidade ;
 	}
 	public function set_produto($produto){
 		$this->produto = $produto;
 	}
-	protected function total(){
-		$total = $this->valor*$this->quantidade;
+
+	public function total(){
+		$total = $this->produto->get_valor() * $this->quantidade;
 		return $total;
 	}
 }

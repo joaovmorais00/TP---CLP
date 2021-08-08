@@ -111,20 +111,20 @@
 
 //CRUD CLIENTE		
 		public function criar_Cliente(){
-			// $clienteTemp = new Cliente;
-			// echo "Digite o nome do cliente:\n";			
-			// $clienteTemp->set_nome(readline());
+			$clienteTemp = new Cliente;
+			echo "Digite o nome do cliente:\n";			
+			$clienteTemp->set_nome(readline());
 			
-			// echo "Digite o RG do cliente:\n";
-			// $clienteTemp->set_RG(readline());
+			echo "Digite o RG do cliente:\n";
+			$clienteTemp->set_RG(readline());
 			
-			// echo "Digite o endereço do cliente:\n";
-			// $clienteTemp->set_endereco(readline());
+			echo "Digite o endereço do cliente:\n";
+			$clienteTemp->set_endereco(readline());
 			
-			// echo "Digite o data de nascimento do cliente:\n";
-			// $clienteTemp->set_data_de_nascimento(readline());
+			echo "Digite o data de nascimento do cliente:\n";
+			$clienteTemp->set_data_de_nascimento(readline());
 
-			// array_push($this->loja->clientes, $clienteTemp);
+			array_push($this->loja->clientes, $clienteTemp);
 		}
 		public function listar_Clientes(){
 			foreach($this->loja->clientes as $cliente){
@@ -197,21 +197,21 @@
 			if($indice >= count($this->loja->produtos)){
 				throw new Exception("\nCodigo nao encontrado\n");
 			}else{
-				echo "\nDeseja alterar o nome do produto? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar o nome do produto? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					echo "\nDigite o novo nome:\n";
 					$nome = readline();
 					$this->loja->produtos[$indice]->set_nome($nome);
 				}
-				echo "\nDeseja alterar o codigo do produto? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar o codigo do produto? 1-SIM  (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					echo "\nDigite o novo codigo:\n";
 					$codigo = readline();
 					$this->loja->produtos[$indice]->set_codigo($codigo);
 				}
-				echo "\nDeseja alterar o valor do produto? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar o valor do produto? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					echo "\nDigite o novo valor:\n";
@@ -261,7 +261,7 @@
 			if($indice > count($this->loja->produtos)){
 				throw new Exception("\nIndice inválido\n");
 			}else{
-				echo "\nDeseja alterar o produto? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar o produto? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					$indiceProduto = $this->encontra_Produto();
@@ -271,7 +271,7 @@
 						$this->loja->vendas[$indiceVenda]->itens[$indice]->set_produto($this->loja->produtos[$indiceProduto]);
 					}
 				}
-				echo "\nDeseja alterar a quantidade? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar a quantidade? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					echo "\nDigite a nova quantidade:\n";
@@ -341,7 +341,7 @@
 			if($indice >= count($this->loja->vendas)){
 				throw new Exception("\nNumero da venda nao encontrado\n");
 			}else{
-				echo "\nDeseja alterar o cliente da venda? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar o cliente da venda? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					$indiceCliente = $this->encontra_Cliente();
@@ -351,21 +351,21 @@
 						$this->loja->vendas[$indice]->set_cliente($this->loja->clientes[$indiceCliente]);
 					}
 				}
-				echo "\nDeseja alterar o numero da venda? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar o numero da venda? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					echo "\nDigite o novo numero:\n";
 					$numero = readline();
 					$this->loja->vendas[$indice]->set_numero($numero);
 				}
-				echo "\nDeseja alterar a data da venda? 1-SIM  2-NAO\n";
+				echo "\nDeseja alterar a data da venda? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					echo "\nDigite a nova data da venda:\n";
 					$data = readline();
 					$this->loja->vendas[$indice]->set_data($data);
 				}
-				echo "\nDeseja alterar ou remover algum item da venda? 1-SIM 2-NAO\n";
+				echo "\nDeseja alterar ou remover algum item da venda? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
 				$opcao = readline();
 				if($opcao==1){
 					$itensTemp = array();

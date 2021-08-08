@@ -20,15 +20,57 @@
 			echo "2 - Listar Clientes\n";
 			echo "3 - Remover Cliente\n";
 			echo "4 - Alterar Cliente\n";
-			return readline();
-			
+			$opcao = readline();
+			switch ($opcao):
+				case 1:
+					$this->criar_Cliente();
+				break;
+				
+				case 2:
+					$this->listar_Clientes();
+								
+				break;
+				
+				case 3:
+					//$menu->remover_Cliente();
+				default:
+					echo "\nOpcao invalida\n";
+				break;
+			endswitch;
 		}
 		public function menu_Produto(){
 			echo "1 - Criar Produto\n";
 			echo "2 - Listar Produtos\n";
 			echo "3 - Remover Produto\n";
 			echo "4 - Alterar Produto\n";
-			return readline();
+			$opcao = readline();
+			switch ($opcao):
+				case 1:
+					$this->criar_Produto();
+				break;
+				
+				case 2:
+					$this->listar_Produto();		
+				break;
+				
+				case 3:
+					try{
+						$this->excluir_Produto();
+					}catch(Exception $e){
+						echo $e->getMessage();
+					}
+				break;
+				case 4:
+					try{
+						$this->alterar_Produto();
+					}catch(Exception $e){
+						echo $e->getMessage();
+					}
+				break;
+				default:
+					echo "\nOpcao invalida\n";
+				break;
+			endswitch;
 			
 		}
 		public function menu_Venda(){
@@ -36,12 +78,39 @@
 			echo "2 - Listar Vendas\n";
 			echo "3 - Remover Venda\n";
 			echo "4 - Alterar Venda\n";
-			return readline();
+			$opcao = readline();
+			switch ($opcao):
+				case 1:
+					$this->criar_Venda();
+				break;
+				
+				case 2:
+					$this->listar_Venda();		
+				break;
+				
+				case 3:
+					try{
+						$this->excluir_Venda();
+					}catch(Exception $e){
+						echo $e->getMessage();
+					}
+				break;
+				case 4:
+					try{
+						$this->alterar_Venda();
+					}catch(Exception $e){
+						echo $e->getMessage();
+					}
+				break;
+				default:
+					echo "\nOpcao invalida\n";
+				break;
+			endswitch;
 			
 		}
 
 //CRUD CLIENTE		
-		public function criar_Cliente(&$qtd){
+		public function criar_Cliente(){
 			// $clienteTemp = new Cliente;
 			// echo "Digite o nome do cliente:\n";			
 			// $clienteTemp->set_nome(readline());

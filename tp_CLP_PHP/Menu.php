@@ -5,7 +5,6 @@
 		protected $loja;
 		function __construct(){
 			$this->loja = new Loja;
-			
 		}
 		public function menu_principal(){
 			echo "Digite o número da opção desejada:\n";
@@ -32,7 +31,19 @@
 				break;
 				
 				case 3:
-					//$menu->remover_Cliente();
+					try{
+						$this->remover_Cliente();
+					}catch(Exception $e){
+						echo $e->getMessage();
+					}
+				break;
+				case 4:
+					try{
+						$this->alterar_Cliente();
+					}catch(Exception $e){
+						echo $e->getMessage();
+					}
+				break;
 				default:
 					echo "\nOpcao invalida\n";
 				break;
@@ -126,7 +137,7 @@
 			
 			$clienteTemp = new Cliente($nomeTemp,$enderecoTemp,$rgTemp,$dataTemp);
 
-			$this->loja->clientes[]= $clienteTemp;
+			array_push($this->loja->clientes, $clienteTemp);
 		}
 		
 		public function listar_Clientes(){
@@ -142,41 +153,48 @@
 		}
 		
 		public function remover_Cliente(){
-			echo ("\nDigite o nome do Cliente que deseja remover:\n");
-			
-			$nome = readline();
-			
-			for($i = 0;$i<sizeof($this->loja->clientes);$i++){
-				if ( $this->loja->clientes[$i]->get_nome() == $nome){
-					echo "Tem certeza que deseja excluir o cliente: $nome? 1 - SIM 2 - NAO\n";
-					if(readline() == 1){
-						unset($this->loja->clientes[$i]);
-						echo "Cliente $nome excluido.\n";
-					}
-				}
-				else
-					echo "Cliente não encontrado\n";
+			$indiceCliente = $this->encontra_Cliente();
+			if($indiceCliente == count($this->loja->clientes)){
+				throw new Exception("\nCliente nao encontrado\n");
+			}else{
+				unset($this->loja->clientes[$indiceCliente]);
 			}
 		}
 		public function alterar_Cliente(){
-			echo ("\nDigite o nome do Cliente que deseja alterar:\n");
-			
-			$nome = readline();
-			
-			for($i = 0;$i<sizeof($this->loja->clientes);$i++){
-				if ( $this->loja->clientes[$i]->get_nome() == $nome){
-					echo "Deseja alterar nome do cliente? 1 - SIM 2 - NAO\n";
-					if(readline() == 1){
-						echo "\nDigite o novo nome:\n";
-						$nome = readline();
-						$this->loja->clientes[$i]->set_nome($nome);
-						$this->loja->clientes[$i]->set_nome($nome);
-						echo "Cliente $nome excluido.\n";
-					}
+			$indiceCliente = $this->encontra_Cliente();
+			if($indiceCliente == count($this->loja->clientes)){
+				throw new Exception("\nCliente nao encontrado\n");
+			}else{
+				echo "\nDeseja alterar o nome do cliente? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite o novo nome:\n";
+					$nome = readline();
+					$this->loja->clientes[$indiceCliente]->set_nome($nome);
 				}
-				else
-					echo "Cliente não encontrado\n";
+				echo "\nDeseja alterar o endereco do cliente? 1-SIM  (OUTRO DIGITO OU ENTER)-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite o novo endereco:\n";
+					$endereco = readline();
+					$this->loja->clientes[$indiceCliente]->set_endereco($endereco);
+				}
+				echo "\nDeseja alterar o RG do cliente? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite o novo RG:\n";
+					$rg = readline();
+					$this->loja->clientes[$indiceCliente]->set_RG($rg);
+				}
+				echo "\nDeseja alterar a data de nascimento do cliente? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
+				$opcao = readline();
+				if($opcao==1){
+					echo "\nDigite a nova data de nascimento:\n";
+					$dataNasc = readline();
+					$this->loja->clientes[$indiceCliente]->set_data_de_nascimento($dataNasc);
+				}
 			}
+
 		}
 		public function encontra_Cliente(){
 			echo "\nDigite o RG do cliente: \n";
@@ -278,10 +296,9 @@
 		}
 
 		public function listar_ItemVenda($indiceVenda){
-			echo "\nItens da venda:\n";
 			$indiceItemVenda=1;
-			foreach($this->loja->vendas[$indiceVenda]->itens as $item){
-				echo $indiceItemVenda."Produto: ".$item->produto->get_nome().", Quantidade: ".$item->get_quantidade().", Valor (Valor de cada unidade do produto): ".$item->get_valor()."\n";
+			foreach($this->loja->vendas[$indiceVenda]->get_itens() as $item){
+				echo $indiceItemVenda." - Produto: ".$item->get_produto()->get_nome().", Quantidade: ".$item->get_quantidade().", Valor (Valor de cada unidade do produto): ".$item->get_valor()."\n";
 				$indiceItemVenda++;
 			}
 		}
@@ -289,17 +306,17 @@
 		public function excluir_ItemVenda($indiceVenda){
 			echo "\nDigite o indice do item da venda\n";
 			$indice = readline();
-			if($indice > count($this->loja->produtos)){
+			if($indice<1 && $indice >=count($this->loja->vendas[$indiceVenda]->get_intens())){
 				throw new Exception("\nIndice inválido\n");
 			}else{
-				unset($this->loja->vendas[$indiceVenda]->itens[$indice]);
+				unset($this->loja->vendas[$indiceVenda]->get_itens()[$indice-1]);
 			}
 		}
 
 		public function alterar_ItemVenda($indiceVenda){
 			echo "\nDigite o indice do item da venda\n";
 			$indice = readline();
-			if($indice > count($this->loja->produtos)){
+			if($indice<1 && $indice >=count($this->loja->vendas[$indiceVenda]->get_intens())){
 				throw new Exception("\nIndice inválido\n");
 			}else{
 				echo "\nDeseja alterar o produto? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
@@ -309,7 +326,7 @@
 					if($indiceProduto >= count($this->loja->produtos)){
 						throw new Exception("\nCodigo nao encontrado\n");
 					}else{
-						$this->loja->vendas[$indiceVenda]->itens[$indice]->set_produto($this->loja->produtos[$indiceProduto]);
+						$this->loja->vendas[$indiceVenda]->get_itens()[$indice-1]->set_produto($this->loja->produtos[$indiceProduto]);
 					}
 				}
 				echo "\nDeseja alterar a quantidade? 1-SIM (OUTRO DIGITO OU ENTER)-NAO\n";
@@ -317,7 +334,7 @@
 				if($opcao==1){
 					echo "\nDigite a nova quantidade:\n";
 					$quantidade = readline();
-					$this->loja->vendas[$indiceVenda]->itens[$indice]->set_quantidade($quantidade);
+					$this->loja->vendas[$indiceVenda]->get_itens()[$indice-1]->set_quantidade($quantidade);
 				}
 			}
 		}
@@ -343,6 +360,8 @@
 						$opcao = 0;
 					}
 				}
+				$vendaTemp = new Venda($numTemp, $dataTemp, $this->loja->clientes[$indiceCliente], $itensTemp);
+				array_push($this->loja->vendas, $vendaTemp);
 			}
 		}
 
@@ -352,6 +371,7 @@
 			foreach($this->loja->vendas as $venda){
 				echo "\nNumero: ".$venda->get_numero().", Data: ".$venda->get_data().", Nome do Cliente: ".$venda->get_cliente()->get_nome()."\nItens:\n";
 				$this->listar_ItemVenda($indiceVenda);
+				echo "\nTotal venda: ".$venda->total();
 				$indiceVenda++;
 			}
 		}

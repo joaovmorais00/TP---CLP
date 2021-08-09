@@ -93,7 +93,12 @@
 			$opcao = readline();
 			switch ($opcao):
 				case 1:
-					$this->criar_Venda();
+					try{
+						$this->criar_Venda();
+					}
+					catch(Exception $e){
+						echo $e->getMessage();
+					}
 				break;
 				
 				case 2:

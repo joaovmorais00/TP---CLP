@@ -58,7 +58,7 @@ class ItemVenda extends Totalizavel{
 	public function __construct($produto, $quantidade){
 		$this->produto = $produto;
 		$this->quantidade = $quantidade;
-		$this->valor = $produto->get_valor();
+		$this->valor = $this->produto->get_valor();
 	}
 
 	public function get_produto(){
@@ -81,7 +81,7 @@ class ItemVenda extends Totalizavel{
 	}
 
 	public function total(){
-		$total = $this->produto->get_valor() * $this->quantidade;
+		$total = $this->valor * $this->quantidade;
 		return $total;
 	}
 }

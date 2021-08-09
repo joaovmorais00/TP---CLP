@@ -371,7 +371,7 @@
 			foreach($this->loja->vendas as $venda){
 				echo "\nNumero: ".$venda->get_numero().", Data: ".$venda->get_data().", Nome do Cliente: ".$venda->get_cliente()->get_nome()."\nItens:\n";
 				$this->listar_ItemVenda($indiceVenda);
-				echo "\nTotal venda: ".$venda->total();
+				echo "\nTotal venda: ".$venda->total()."\n";
 				$indiceVenda++;
 			}
 		}
